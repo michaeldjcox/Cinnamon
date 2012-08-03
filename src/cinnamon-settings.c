@@ -74,7 +74,7 @@ cinnamon_settings_set_property(GObject         *object,
                           const GValue    *value,
                           GParamSpec      *pspec)
 {
-  CinnamonSettings *settings = CINNAMON_SETTINGS (object);
+  //CinnamonSettings *settings = CINNAMON_SETTINGS (object);
   
   switch (prop_id)
     {
@@ -106,4 +106,39 @@ static void
 cinnamon_settings_init (CinnamonSettings *settings)
 {
   
+}
+
+static gboolean
+key_contained_in_keys_list (const gchar * const *items,
+                            const gchar         *item)
+{
+  while (*items)
+    if (strcmp (*items++, item) == 0)
+      return TRUE;
+
+  return FALSE;
+}
+
+static gboolean
+g_settings_check_key_exists(GSettings *settings, const gchar *key)
+{
+  gboolean exists;
+  gchar **keys_list;
+
+  keys_list = g_settings_list_keys (settings);
+  exists = key_contained_in_keys_list ((const gchar **) keys_list, key);
+  g_strfreev (keys_list);
+  
+  if (!exists) g_warning("Key \"%s\" does not exist", key);
+  
+  return exists;
+}
+
+gboolean
+cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_boolean(settings->backend, key);
+  else
+    return FALSE;
 }
