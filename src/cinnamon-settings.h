@@ -26,6 +26,8 @@ GType              cinnamon_settings_get_type     (void) G_GNUC_CONST;
 
 CinnamonSettings*  cinnamon_settings_new (const gchar *schema_id);
 
+GVariant *         cinnamon_settings_get_value (CinnamonSettings *settings, const gchar *key);
+gboolean           cinnamon_settings_set_value (CinnamonSettings *settings, const gchar *key, GVariant *value);
 gboolean           cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key);
 gboolean           cinnamon_settings_set_boolean (CinnamonSettings *settings, const gchar *key, gboolean value);
 gint               cinnamon_settings_get_int (CinnamonSettings *settings, const gchar *key);

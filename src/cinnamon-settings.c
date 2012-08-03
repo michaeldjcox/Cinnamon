@@ -134,6 +134,24 @@ g_settings_check_key_exists(GSettings *settings, const gchar *key)
   return exists;
 }
 
+GVariant *
+cinnamon_settings_get_value (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_value(settings->backend, key);
+  else
+    return FALSE;
+}
+
+gboolean
+cinnamon_settings_set_value (CinnamonSettings *settings, const gchar *key, GVariant *value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_value(settings->backend, key, value);
+  else
+    return FALSE;
+}
+
 gboolean
 cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key)
 {
