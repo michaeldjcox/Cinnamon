@@ -319,3 +319,56 @@ cinnamon_settings_set_flags (CinnamonSettings *settings, const gchar *key, guint
   else
     return FALSE;
 }
+
+/**
+ * cinnamon_settings_bind:
+ * @settings: a #CinnamonSettings object
+ * @key: the key to bind
+ * @object: (type GObject.Object): a #GObject
+ * @property: the name of the property to bind
+ * @flags: flags for the binding
+ *
+ * Wrapper for g_settings_bind
+ */
+void
+cinnamon_settings_bind (CinnamonSettings *settings, const gchar *key, gpointer object, const gchar *property, GSettingsBindFlags flags)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    g_settings_bind(settings->backend, key, object, property, flags);
+}
+
+/**
+ * cinnamon_settings_bind_with_mapping: (skip)
+ * @settings: a #CinnamonSettings object
+ * @key: the key to bind
+ * @object: (type GObject.Object): a #GObject
+ * @property: the name of the property to bind
+ * @flags: flags for the binding
+ * @get_mapping: a function that gets called to convert values
+ *     from @settings to @object, or %NULL to use the default GIO mapping
+ * @set_mapping: a function that gets called to convert values
+ *     from @object to @settings, or %NULL to use the default GIO mapping
+ * @user_data: data that gets passed to @get_mapping and @set_mapping
+ * @destroy: #GDestroyNotify function for @user_data
+ *
+ * Wrapper for g_settings_bind_with_mapping
+ */
+void
+cinnamon_settings_bind_with_mapping (CinnamonSettings *settings, const gchar *key, gpointer object, const gchar *property, GSettingsBindFlags flags, GSettingsBindGetMapping get_mapping, GSettingsBindSetMapping set_mapping, gpointer user_data, GDestroyNotify destroy)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    g_settings_bind_with_mapping (settings->backend, key, object, property, flags, get_mapping, set_mapping, user_data, destroy);
+}
+
+void
+cinnamon_settings_bind_writable (CinnamonSettings *settings, const gchar *key, gpointer object, const gchar *property, gboolean inverted)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    g_settings_bind_writable (settings->backend, key, object, property, inverted);
+}
+                                                         
+void
+cinnamon_settings_unbind (gpointer object, const gchar *property)
+{
+  g_settings_unbind (object, property);
+}

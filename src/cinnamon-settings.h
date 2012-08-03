@@ -44,6 +44,26 @@ gint               cinnamon_settings_get_enum (CinnamonSettings *settings, const
 gboolean           cinnamon_settings_set_enum (CinnamonSettings *settings, const gchar *key, gint value);
 guint              cinnamon_settings_get_flags (CinnamonSettings *settings, const gchar *key);
 gboolean           cinnamon_settings_set_flags (CinnamonSettings *settings, const gchar *key, guint value);
+void               cinnamon_settings_bind (CinnamonSettings *settings,
+                                           const gchar *key,
+                                           gpointer object,
+                                           const gchar *property,
+                                           GSettingsBindFlags flags);
+void               cinnamon_settings_bind_with_mapping (CinnamonSettings *settings,
+                                                        const gchar *key,
+                                                        gpointer object,
+                                                        const gchar *property,
+                                                        GSettingsBindFlags flags,
+                                                        GSettingsBindGetMapping get_mapping,
+                                                        GSettingsBindSetMapping set_mapping,
+                                                        gpointer user_data,
+                                                        GDestroyNotify destroy);
+void               cinnamon_settings_bind_writable (CinnamonSettings *settings,
+                                                    const gchar *key,
+                                                    gpointer object,
+                                                    const gchar *property,
+                                                    gboolean inverted);
+void               cinnamon_settings_unbind (gpointer object, const gchar *property);
 
 G_END_DECLS
 
