@@ -142,3 +142,77 @@ cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key)
   else
     return FALSE;
 }
+
+gint
+cinnamon_settings_get_int (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_int(settings->backend, key);
+  else
+    return 0;
+}
+
+guint
+cinnamon_settings_get_uint (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_uint(settings->backend, key);
+  else
+    return 0;
+}
+
+gdouble
+cinnamon_settings_get_double (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_double(settings->backend, key);
+  else
+    return 0;
+}
+
+gchar *
+cinnamon_settings_get_string (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_string(settings->backend, key);
+  else
+    return NULL;
+}
+
+/**
+ * cinnamon_settings_get_strv:
+ * @settings: a #CinnamonSettings object
+ * @key: the key to get the value for
+ *
+ * Wrapper for the g_settings_get_strv function
+ *
+ * Returns: (array zero-terminated=1) (transfer full): a
+ * newly-allocated, %NULL-terminated array of strings, the value that
+ * is stored at @key in @settings.
+ */
+gchar **
+cinnamon_settings_get_strv (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_strv(settings->backend, key);
+  else
+    return NULL;
+}
+
+gint
+cinnamon_settings_get_enum (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_enum(settings->backend, key);
+  else
+    return 0;
+}
+
+guint
+cinnamon_settings_get_flags (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_flags(settings->backend, key);
+  else
+    return 0;
+}

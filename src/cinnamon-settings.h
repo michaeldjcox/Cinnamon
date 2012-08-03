@@ -27,6 +27,13 @@ GType              cinnamon_settings_get_type     (void) G_GNUC_CONST;
 CinnamonSettings*  cinnamon_settings_new (const gchar *schema_id);
 
 gboolean           cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key);
+gint               cinnamon_settings_get_int (CinnamonSettings *settings, const gchar *key);
+guint              cinnamon_settings_get_uint (CinnamonSettings *settings, const gchar *key);
+gdouble            cinnamon_settings_get_double (CinnamonSettings *settings, const gchar *key);
+gchar *            cinnamon_settings_get_string (CinnamonSettings *settings, const gchar *key);
+gchar **           cinnamon_settings_get_strv (CinnamonSettings *settings, const gchar *key);
+gint               cinnamon_settings_get_enum (CinnamonSettings *settings, const gchar *key);
+guint              cinnamon_settings_get_flags (CinnamonSettings *settings, const gchar *key);
 
 G_END_DECLS
 
