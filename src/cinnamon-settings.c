@@ -143,6 +143,15 @@ cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key)
     return FALSE;
 }
 
+gboolean
+cinnamon_settings_set_boolean (CinnamonSettings *settings, const gchar *key, gboolean value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_boolean(settings->backend, key, value);
+  else
+    return FALSE;
+}
+
 gint
 cinnamon_settings_get_int (CinnamonSettings *settings, const gchar *key)
 {
@@ -150,6 +159,15 @@ cinnamon_settings_get_int (CinnamonSettings *settings, const gchar *key)
     return g_settings_get_int(settings->backend, key);
   else
     return 0;
+}
+
+gboolean
+cinnamon_settings_set_int (CinnamonSettings *settings, const gchar *key, gint value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_int(settings->backend, key, value);
+  else
+    return FALSE;
 }
 
 guint
@@ -161,6 +179,15 @@ cinnamon_settings_get_uint (CinnamonSettings *settings, const gchar *key)
     return 0;
 }
 
+gboolean
+cinnamon_settings_set_uint (CinnamonSettings *settings, const gchar *key, guint value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_uint(settings->backend, key, value);
+  else
+    return FALSE;
+}
+
 gdouble
 cinnamon_settings_get_double (CinnamonSettings *settings, const gchar *key)
 {
@@ -170,6 +197,15 @@ cinnamon_settings_get_double (CinnamonSettings *settings, const gchar *key)
     return 0;
 }
 
+gboolean
+cinnamon_settings_set_double (CinnamonSettings *settings, const gchar *key, gdouble value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_double(settings->backend, key, value);
+  else
+    return FALSE;
+}
+
 gchar *
 cinnamon_settings_get_string (CinnamonSettings *settings, const gchar *key)
 {
@@ -177,6 +213,15 @@ cinnamon_settings_get_string (CinnamonSettings *settings, const gchar *key)
     return g_settings_get_string(settings->backend, key);
   else
     return NULL;
+}
+
+gboolean
+cinnamon_settings_set_string (CinnamonSettings *settings, const gchar *key, gchar *value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_string(settings->backend, key, value);
+  else
+    return FALSE;
 }
 
 /**
@@ -199,6 +244,28 @@ cinnamon_settings_get_strv (CinnamonSettings *settings, const gchar *key)
     return NULL;
 }
 
+/**
+ * cinnamon_settings_set_strv:
+ * @settings: a #CinnamonSettings object
+ * @key: the name of the key to set
+ * @value: (allow-none) (array zero-terminated=1): the value to set it to, or %NULL
+ *
+ * Sets @key in @settings to @value.
+ *
+ * Wrapper for the g_settings_set_strv function
+ *
+ * Returns: %TRUE if setting the key succeeded,
+ *     %FALSE if the key was not writable
+ */
+gboolean
+cinnamon_settings_set_strv (CinnamonSettings *settings, const gchar *key, const gchar *const *value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_strv(settings->backend, key, value);
+  else
+    return FALSE;
+}
+
 gint
 cinnamon_settings_get_enum (CinnamonSettings *settings, const gchar *key)
 {
@@ -208,6 +275,15 @@ cinnamon_settings_get_enum (CinnamonSettings *settings, const gchar *key)
     return 0;
 }
 
+gboolean
+cinnamon_settings_set_enum (CinnamonSettings *settings, const gchar *key, gint value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_enum(settings->backend, key, value);
+  else
+    return FALSE;
+}
+
 guint
 cinnamon_settings_get_flags (CinnamonSettings *settings, const gchar *key)
 {
@@ -215,4 +291,13 @@ cinnamon_settings_get_flags (CinnamonSettings *settings, const gchar *key)
     return g_settings_get_flags(settings->backend, key);
   else
     return 0;
+}
+
+gboolean
+cinnamon_settings_set_flags (CinnamonSettings *settings, const gchar *key, guint value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_set_flags(settings->backend, key, value);
+  else
+    return FALSE;
 }
