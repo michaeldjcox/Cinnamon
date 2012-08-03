@@ -38,6 +38,7 @@
 #include "cinnamon-perf-log.h"
 #include "cinnamon-window-tracker.h"
 #include "cinnamon-wm.h"
+#include "cinnamon-settings.h"
 #include "st.h"
 
 static CinnamonGlobal *the_object = NULL;
@@ -75,6 +76,7 @@ struct _CinnamonGlobal {
   MetaPlugin *plugin;
   CinnamonWM *wm;
   GSettings *settings;
+  CinnamonSettings *cinnamon_settings;
   const char *datadir;
   const char *imagedir;
   const char *userdatadir;
@@ -107,6 +109,7 @@ enum {
   PROP_BACKGROUND_ACTOR,
   PROP_WINDOW_MANAGER,
   PROP_SETTINGS,
+  PROP_CINNAMON_SETTINGS,
   PROP_DATADIR,
   PROP_IMAGEDIR,
   PROP_USERDATADIR,
@@ -205,6 +208,9 @@ cinnamon_global_get_property(GObject         *object,
     case PROP_SETTINGS:
       g_value_set_object (value, global->settings);
       break;
+    case PROP_CINNAMON_SETTINGS:
+      g_value_set_object (value, global->cinnamon_settings);
+      break;
     case PROP_DATADIR:
       g_value_set_string (value, global->datadir);
       break;
@@ -252,6 +258,7 @@ cinnamon_global_init (CinnamonGlobal *global)
   g_mkdir_with_parents (global->userdatadir, 0700);
 
   global->settings = g_settings_new ("org.cinnamon");
+  global->cinnamon_settings = cinnamon_settings_new ("org.cinnamon");
   
   global->grab_notifier = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
   g_signal_connect (global->grab_notifier, "grab-notify", G_CALLBACK (grab_notify), global);
@@ -284,6 +291,7 @@ cinnamon_global_finalize (GObject *object)
   g_object_unref (global->js_context);
   gtk_widget_destroy (GTK_WIDGET (global->grab_notifier));
   g_object_unref (global->settings);
+  g_object_unref (global->cinnamon_settings);
 
   the_object = NULL;
 
@@ -435,6 +443,13 @@ cinnamon_global_class_init (CinnamonGlobalClass *klass)
                                                         "Settings",
                                                         "GSettings instance for cinnamon configuration",
                                                         G_TYPE_SETTINGS,
+                                                        G_PARAM_READABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_CINNAMON_SETTINGS,
+                                   g_param_spec_object ("cinnamon_settings",
+                                                        "Settings",
+                                                        "GSettings instance for cinnamon configuration",
+                                                        CINNAMON_TYPE_SETTINGS,
                                                         G_PARAM_READABLE));
   g_object_class_install_property (gobject_class,
                                    PROP_DATADIR,

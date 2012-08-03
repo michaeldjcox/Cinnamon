@@ -147,6 +147,8 @@ libcinnamon_la_SOURCES =		\
 	cinnamon-perf-log.c		\
 	cinnamon-polkit-authentication-agent.h	\
 	cinnamon-polkit-authentication-agent.c	\
+	cinnamon-settings.c	\
+	cinnamon-settings.h	\
 	cinnamon-slicer.c			\
 	cinnamon-stack.c			\
 	cinnamon-tray-icon.c		\
