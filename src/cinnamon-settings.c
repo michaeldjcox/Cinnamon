@@ -153,6 +153,39 @@ cinnamon_settings_set_value (CinnamonSettings *settings, const gchar *key, GVari
 }
 
 gboolean
+cinnamon_settings_is_writable (CinnamonSettings *settings, const gchar *name)
+{
+  if (g_settings_check_key_exists(settings->backend, name))
+    return g_settings_is_writable(settings->backend, name);
+  else
+    return FALSE;
+}
+
+void
+cinnamon_settings_delay (CinnamonSettings *settings)
+{
+  g_settings_delay(settings->backend);
+}
+
+void
+cinnamon_settings_apply (CinnamonSettings *settings)
+{
+  g_settings_apply(settings->backend);
+}
+
+void
+cinnamon_settings_revert (CinnamonSettings *settings)
+{
+  g_settings_revert(settings->backend);
+}
+
+gboolean
+cinnamon_settings_get_has_unapplied (CinnamonSettings *settings)
+{
+  return g_settings_get_has_unapplied(settings->backend);
+}
+
+gboolean
 cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key)
 {
   if (g_settings_check_key_exists(settings->backend, key))
