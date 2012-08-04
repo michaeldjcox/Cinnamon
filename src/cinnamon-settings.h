@@ -30,6 +30,8 @@ CinnamonSettings*       cinnamon_settings_new_from_g_settings (GSettings *backen
 void                    cinnamon_settings_sync (void);
 GVariant*               cinnamon_settings_get_value (CinnamonSettings *settings, const gchar *key);
 gboolean                cinnamon_settings_set_value (CinnamonSettings *settings, const gchar *key, GVariant *value);
+void                    cinnamon_settings_get (CinnamonSettings   *settings, const gchar *key, const gchar *format, ...);
+gboolean                cinnamon_settings_set (CinnamonSettings   *settings, const gchar *key, const gchar *format, ...);
 gboolean                cinnamon_settings_is_writable (CinnamonSettings *settings, const gchar *name);
 void                    cinnamon_settings_delay (CinnamonSettings *settings);
 void                    cinnamon_settings_apply (CinnamonSettings *settings);

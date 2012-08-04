@@ -178,6 +178,65 @@ cinnamon_settings_set_value (CinnamonSettings *settings, const gchar *key, GVari
     return FALSE;
 }
 
+/**
+ * cinnamon_settings_get:
+ * @settings: a #CinnamonSettings object
+ * @key: the key to get the value for
+ * @format: a #GVariant format string
+ * @...: arguments as per @format
+ *
+ * Wrapper for g_settings_get
+ */
+void
+cinnamon_settings_get (CinnamonSettings   *settings, const gchar *key, const gchar *format, ...)
+{
+  GVariant *value;
+  va_list ap;
+  
+  if (g_settings_check_key_exists(settings->backend, key))
+  {
+    value = g_settings_get_value (settings->backend, key);
+
+    va_start (ap, format);
+    g_variant_get_va (value, format, NULL, &ap);
+    va_end (ap);
+
+    g_variant_unref (value);
+  }
+}
+
+/**
+ * cinnamon_settings_set:
+ * @settings: a #CinnamonSettings object
+ * @key: the name of the key to set
+ * @format: a #GVariant format string
+ * @...: arguments as per @format
+ *
+ * Wrapper for g_settings_set
+ *
+ * Returns: %TRUE if setting the key succeeded,
+ *     %FALSE if the key was not writable
+ */
+gboolean
+cinnamon_settings_set (CinnamonSettings   *settings, const gchar *key, const gchar *format, ...)
+{
+  GVariant *value;
+  va_list ap;
+  
+  if (g_settings_check_key_exists(settings->backend, key))
+  {
+    va_start (ap, format);
+    value = g_variant_new_va (format, NULL, &ap);
+    va_end (ap);
+
+    return g_settings_set_value (settings->backend, key, value);
+  }
+  else
+  {
+    return FALSE;
+  }
+}
+
 gboolean
 cinnamon_settings_is_writable (CinnamonSettings *settings, const gchar *name)
 {
