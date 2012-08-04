@@ -22,53 +22,68 @@ typedef struct _CinnamonSettingsClass CinnamonSettingsClass;
 #define CINNAMON_IS_SETTINGS_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), CINNAMON_TYPE_SETTINGS))
 #define CINNAMON_SETTINGS_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), CINNAMON_TYPE_SETTINGS, CinnamonSettingsClass))
 
-GType              cinnamon_settings_get_type     (void) G_GNUC_CONST;
+GType                   cinnamon_settings_get_type     (void) G_GNUC_CONST;
 
-CinnamonSettings*  cinnamon_settings_new (const gchar *schema_id);
+CinnamonSettings*       cinnamon_settings_new (const gchar *schema_id);
+CinnamonSettings*       cinnamon_settings_new_from_g_settings (GSettings *backend);
 
-GVariant *         cinnamon_settings_get_value (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_value (CinnamonSettings *settings, const gchar *key, GVariant *value);
-gboolean           cinnamon_settings_is_writable (CinnamonSettings *settings, const gchar *name);
-void               cinnamon_settings_delay (CinnamonSettings *settings);
-void               cinnamon_settings_apply (CinnamonSettings *settings);
-void               cinnamon_settings_revert (CinnamonSettings *settings);
-gboolean           cinnamon_settings_get_has_unapplied (CinnamonSettings *settings);
-gboolean           cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_boolean (CinnamonSettings *settings, const gchar *key, gboolean value);
-gint               cinnamon_settings_get_int (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_int (CinnamonSettings *settings, const gchar *key, gint value);
-guint              cinnamon_settings_get_uint (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_uint (CinnamonSettings *settings, const gchar *key, guint value);
-gdouble            cinnamon_settings_get_double (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_double (CinnamonSettings *settings, const gchar *key, gdouble value);
-gchar *            cinnamon_settings_get_string (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_string (CinnamonSettings *settings, const gchar *key, gchar *value);
-gchar **           cinnamon_settings_get_strv (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_strv (CinnamonSettings *settings, const gchar *key, const gchar *const *value);
-gint               cinnamon_settings_get_enum (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_enum (CinnamonSettings *settings, const gchar *key, gint value);
-guint              cinnamon_settings_get_flags (CinnamonSettings *settings, const gchar *key);
-gboolean           cinnamon_settings_set_flags (CinnamonSettings *settings, const gchar *key, guint value);
-void               cinnamon_settings_bind (CinnamonSettings *settings,
-                                           const gchar *key,
-                                           gpointer object,
-                                           const gchar *property,
-                                           GSettingsBindFlags flags);
-void               cinnamon_settings_bind_with_mapping (CinnamonSettings *settings,
-                                                        const gchar *key,
-                                                        gpointer object,
-                                                        const gchar *property,
-                                                        GSettingsBindFlags flags,
-                                                        GSettingsBindGetMapping get_mapping,
-                                                        GSettingsBindSetMapping set_mapping,
-                                                        gpointer user_data,
-                                                        GDestroyNotify destroy);
-void               cinnamon_settings_bind_writable (CinnamonSettings *settings,
-                                                    const gchar *key,
-                                                    gpointer object,
-                                                    const gchar *property,
-                                                    gboolean inverted);
-void               cinnamon_settings_unbind (gpointer object, const gchar *property);
+void                    cinnamon_settings_sync (void);
+GVariant*               cinnamon_settings_get_value (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_value (CinnamonSettings *settings, const gchar *key, GVariant *value);
+gboolean                cinnamon_settings_is_writable (CinnamonSettings *settings, const gchar *name);
+void                    cinnamon_settings_delay (CinnamonSettings *settings);
+void                    cinnamon_settings_apply (CinnamonSettings *settings);
+void                    cinnamon_settings_revert (CinnamonSettings *settings);
+gboolean                cinnamon_settings_get_has_unapplied (CinnamonSettings *settings);
+CinnamonSettings*       cinnamon_settings_get_child (CinnamonSettings *settings, const gchar *name);
+void                    cinnamon_settings_reset (CinnamonSettings *settings, const gchar *key);
+const gchar * const *   cinnamon_settings_list_schemas (void);
+const gchar * const *   cinnamon_settings_list_relocatable_schemas (void);
+gchar**                 cinnamon_settings_list_keys (CinnamonSettings *settings);
+gchar**                 cinnamon_settings_list_children (CinnamonSettings *settings);
+GVariant*               cinnamon_settings_get_range (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_range_check (CinnamonSettings *settings, const gchar *key, GVariant *value);
+gboolean                cinnamon_settings_get_boolean (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_boolean (CinnamonSettings *settings, const gchar *key, gboolean value);
+gint                    cinnamon_settings_get_int (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_int (CinnamonSettings *settings, const gchar *key, gint value);
+guint                   cinnamon_settings_get_uint (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_uint (CinnamonSettings *settings, const gchar *key, guint value);
+gdouble                 cinnamon_settings_get_double (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_double (CinnamonSettings *settings, const gchar *key, gdouble value);
+gchar*                  cinnamon_settings_get_string (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_string (CinnamonSettings *settings, const gchar *key, gchar *value);
+gchar**                 cinnamon_settings_get_strv (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_strv (CinnamonSettings *settings, const gchar *key, const gchar *const *value);
+gint                    cinnamon_settings_get_enum (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_enum (CinnamonSettings *settings, const gchar *key, gint value);
+guint                   cinnamon_settings_get_flags (CinnamonSettings *settings, const gchar *key);
+gboolean                cinnamon_settings_set_flags (CinnamonSettings *settings, const gchar *key, guint value);
+gpointer                cinnamon_settings_get_mapped (CinnamonSettings *settings,
+                                                      const gchar *key,
+                                                      GSettingsGetMapping mapping,
+                                                      gpointer user_data);
+void                    cinnamon_settings_bind (CinnamonSettings *settings,
+                                                const gchar *key,
+                                                gpointer object,
+                                                const gchar *property,
+                                                GSettingsBindFlags flags);
+void                    cinnamon_settings_bind_with_mapping (CinnamonSettings *settings,
+                                                             const gchar *key,
+                                                             gpointer object,
+                                                             const gchar *property,
+                                                             GSettingsBindFlags flags,
+                                                             GSettingsBindGetMapping get_mapping,
+                                                             GSettingsBindSetMapping set_mapping,
+                                                             gpointer user_data,
+                                                             GDestroyNotify destroy);
+void                    cinnamon_settings_bind_writable (CinnamonSettings *settings,
+                                                         const gchar *key,
+                                                         gpointer object,
+                                                         const gchar *property,
+                                                         gboolean inverted);
+void                    cinnamon_settings_unbind (gpointer object, const gchar *property);
+GAction*                cinnamon_settings_create_action (CinnamonSettings *settings, const gchar *key);
 
 G_END_DECLS
 

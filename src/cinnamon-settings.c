@@ -42,6 +42,32 @@ cinnamon_settings_new (const gchar *schema_id)
   return settings;
 }
 
+/**
+ * cinnamon_settings_new_from_g_settings:
+ * @backend: a #GSettings object
+ *
+ * Create a new #CinnamonSettings
+ *
+ * Return value: The newly created #CinnamonSettings object
+ */
+CinnamonSettings     *
+cinnamon_settings_new_from_g_settings (GSettings *backend)
+{
+  CinnamonSettings *settings;
+  
+  settings = CINNAMON_SETTINGS(g_object_new (CINNAMON_TYPE_SETTINGS, NULL));
+  
+  settings->backend = backend;
+
+  return settings;
+}
+
+void
+cinnamon_settings_sync (void)
+{
+  g_settings_sync();
+}
+
 static void
 cinnamon_settings_finalize (GObject *object)
 {
@@ -183,6 +209,86 @@ gboolean
 cinnamon_settings_get_has_unapplied (CinnamonSettings *settings)
 {
   return g_settings_get_has_unapplied(settings->backend);
+}
+
+/**
+ * cinnamon_settings_get_child:
+ * @settings: a #CinnamonSettings object
+ * @name: the name of the 'child' schema
+ *
+ * Wrapper for g_settings_get_child
+ *
+ * Returns: (transfer full): a 'child' settings object
+ */
+CinnamonSettings *
+cinnamon_settings_get_child (CinnamonSettings *settings, const gchar *name)
+{
+  return cinnamon_settings_new_from_g_settings(g_settings_get_child(settings->backend, name));
+}
+
+void
+cinnamon_settings_reset (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    g_settings_reset(settings->backend, key);
+}
+
+const gchar * const *
+cinnamon_settings_list_schemas (void)
+{
+  return g_settings_list_schemas();
+}
+
+const gchar * const *
+cinnamon_settings_list_relocatable_schemas (void)
+{
+  return g_settings_list_relocatable_schemas();
+}
+
+/**
+ * cinnamon_settings_list_keys:
+ * @settings: a #CinnamonSettings object
+ *
+ * Wrapper for g_settings_list_keys
+ *
+ * Returns: (transfer full) (element-type utf8): a list of the keys on @settings
+ */
+gchar **
+cinnamon_settings_list_keys (CinnamonSettings *settings)
+{
+  return g_settings_list_keys(settings->backend);
+}
+
+/**
+ * cinnamon_settings_list_children:
+ * @settings: a #CinnamonSettings object
+ *
+ * Wrapper for g_settings_list_children
+ *
+ * Returns: (transfer full) (element-type utf8): a list of the children on @settings
+ */
+gchar **
+cinnamon_settings_list_children (CinnamonSettings *settings)
+{
+  return g_settings_list_children(settings->backend);
+}
+
+GVariant *
+cinnamon_settings_get_range (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_range(settings->backend, key);
+  else
+    return NULL;
+}
+
+gboolean
+cinnamon_settings_range_check (CinnamonSettings *settings, const gchar *key, GVariant *value)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_range_check(settings->backend, key, value);
+  else
+    return FALSE;
 }
 
 gboolean
@@ -354,6 +460,27 @@ cinnamon_settings_set_flags (CinnamonSettings *settings, const gchar *key, guint
 }
 
 /**
+ * cinnamon_settings_get_mapped:
+ * @settings: a #CinnamonSettings object
+ * @key: the key to get the value for
+ * @mapping: (scope call): the function to map the value in the
+ *           settings database to the value used by the application
+ * @user_data: user data for @mapping
+ *
+ * Wrapper for g_settings_get_mapped
+ *
+ * Returns: (transfer full): the result, which may be %NULL
+ **/
+gpointer
+cinnamon_settings_get_mapped (CinnamonSettings *settings, const gchar *key, GSettingsGetMapping mapping, gpointer user_data)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_get_mapped (settings->backend, key, mapping, user_data);
+  else
+    return NULL;
+}
+
+/**
  * cinnamon_settings_bind:
  * @settings: a #CinnamonSettings object
  * @key: the key to bind
@@ -404,4 +531,22 @@ void
 cinnamon_settings_unbind (gpointer object, const gchar *property)
 {
   g_settings_unbind (object, property);
+}
+
+/**
+ * cinnamon_settings_create_action:
+ * @settings: a #CinnamonSettings
+ * @key: the name of a key in @settings
+ *
+ * Wrapper for g_settings_create_action
+ *
+ * Returns: (transfer full): a new #GAction
+ **/
+GAction*
+cinnamon_settings_create_action (CinnamonSettings *settings, const gchar *key)
+{
+  if (g_settings_check_key_exists(settings->backend, key))
+    return g_settings_create_action(settings->backend, key);
+  else
+    return NULL;
 }
