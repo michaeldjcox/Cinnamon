@@ -47,7 +47,7 @@ StScrollBar StButton#hhandle:hover,
 StScrollBar StButton#vhandle:hover {
 	background-color: rgba(204,204,204,0.5);
 }
-StTooltip StLabel {
+#Tooltip {
 	border: 1px solid rgba(212,185,67,1.0);
 	border-radius: 4px;
 	padding: 2px 12px;
@@ -256,6 +256,10 @@ StTooltip StLabel {
 	padding-right: 0px;
 	spacing: 0px;
 }
+.panel-top {
+}
+.panel-bottom {
+}
 .panel-status-button {
 	border: 0px solid #8b8b8b;
 	-natural-hpadding: 3px;
@@ -273,6 +277,7 @@ StTooltip StLabel {
 	spacing: 0px;
 	margin: 0px;
 }
+
 .panel-corner {
 	-panel-corner-radius: 0px;
 	-panel-corner-background-color: black;
@@ -333,9 +338,17 @@ StTooltip StLabel {
 	spacing: 12px;
 }
 .window-caption {
+	background-color: black;
 	color: white;
 	spacing: 25px;
 }
+
+.window-caption#selected {
+	background-color: white;
+	color: black;
+	font-weight: bold;
+}
+
 .workspace-controls {
 	visible-height: 32px; /* Amount visible before hovering */
 }
@@ -358,8 +371,11 @@ StTooltip StLabel {
 	background-image: url("add-workspace.png");
 	height: 200px;
 	width: 35px;
+	transition-duration: 300;
 }
-.workspace-add-button:hover {	
+.workspace-add-button:hover {
+	background-image: url("add-workspace-hover.png");
+	transition-duration: 300;
 }
 
 .workspace-close-button {
@@ -390,6 +406,17 @@ StTooltip StLabel {
 .window-close:rtl {
 	-st-background-image-shadow: 2px 2px 6px rgba(0,0,0,0.5);
 }
+
+.window-close-area {
+	background-image: url("trash-icon.png");
+	background-color: rgba(60, 60, 60, 0.8);
+	border: 4px solid rgba(128,128,128,0.8);
+	border-bottom-width: 0px;
+	border-radius: 20px 20px 0px 0px;
+	height: 120px;
+	width: 400px;
+}
+
 .icon-grid {
 	spacing: 36px;
 	-cinnamon-grid-item-size: 118px;
@@ -405,6 +432,12 @@ StTooltip StLabel {
 	color: white;
 	transition-duration: 100;
 	text-align: center;
+}
+
+.expo-background {
+	background-gradient-start: #000;
+	background-gradient-end: #AAA;
+	background-gradient-direction: vertical
 }
 /* ===================================================================
  * ViewSelector 
@@ -650,7 +683,6 @@ StTooltip StLabel {
 	spacing-rows: 10px;
 	spacing-columns: 10px;
 	margin-from-right-edge-of-screen: 20px;
-	margin-from-top-edge-of-screen: 30px;
 	width: 34em;
 	color: white;
 }
@@ -831,12 +863,12 @@ StTooltip StLabel {
 	background: rgba(255,255,255,0.33);
 }
 .ripple-box {
-	width: 52px;
-	height: 52px;
-	background-image: url("corner-ripple-ltr.png");
+	width: 104px;
+	height: 104px;
+	background-image: url("corner-ripple.png");
 }
 .ripple-box:rtl {
-	background-image: url("corner-ripple-rtl.png");
+	background-image: url("corner-ripple.png");
 }
 .switcher-arrow {
 	border-color: rgba(0,0,0,0);
@@ -846,6 +878,10 @@ StTooltip StLabel {
 	border-color: rgba(0,0,0,0);
 	color: white;
 }
+.switcher-preview-backdrop {
+   background-color: rgba(0,0,0,0.7);
+}
+
 /* ===================================================================
  * Modal dialogs
  * ===================================================================*/
@@ -1193,7 +1229,6 @@ StTooltip StLabel {
 /* Main menu title */
 
 .menu-favorites-box {
-	width: 70%;
 	margin: auto;
 	padding: 10px;
 	border: 1px solid #666;
@@ -1218,7 +1253,6 @@ StTooltip StLabel {
 	border-radius: 4px;
 }
 .menu-places-box {
-	width: 70%;
 	margin: auto;
 	padding: 10px;
 	border: 0px solid #666;
@@ -1247,7 +1281,6 @@ StTooltip StLabel {
 	padding-right: 7px;
 	padding-bottom: 7px;
 }
-.menu-application-button:hover,
 .menu-application-button-selected {
 	padding-top: 7px;
 	padding-left: 7px;
@@ -1261,16 +1294,17 @@ StTooltip StLabel {
 	border-radius: 4px;
 }
 .menu-application-button-label:ltr { 
-	padding-left: 5px		
+	padding-left: 5px;
 }
 .menu-application-button-label:rtl { 
-	padding-right: 5px		
+	padding-right: 5px;
 }
 .menu-category-button {
 	padding-top: 7px;
 	padding-left: 7px;
 	padding-right: 7px;
 	padding-bottom: 7px;
+	transition-duration: 75;
 }
 .menu-category-button-greyed {
 	padding-top: 7px;
@@ -1291,13 +1325,14 @@ StTooltip StLabel {
 	background-gradient-end: rgba(255,255,255,0.08);
 	box-shadow: inset 0px 0px 1px 1px rgba(255,255,255,0.06);
 	border-radius: 4px;
-	transition-duration: 300;
+	transition-duration: 75;
 }
-.menu-category-button-label:ltr { 
-	padding-left: 5px		
+.menu-category-button-label:ltr {
+	padding-left: 5px;
 }
-.menu-category-button-label:rtl { 
-	padding-right: 5px		
+.menu-category-button-label:rtl {
+	padding-right: 5px;
+
 }
 .menu-category-button-button:hover {
 	background-color: #969696;
@@ -1388,7 +1423,7 @@ StTooltip StLabel {
 	border-radius: 2px 2px 0px 0px;
 	padding-left: 5px;
 	padding-right: 5px;
-	transition-duration: 300;
+	transition-duration: 100;
 }
 .window-list-item-box:active,
 .window-list-item-box:checked,
@@ -1411,14 +1446,15 @@ StTooltip StLabel {
  * Sound Applet (status/volume.js)
  * ===================================================================*/
 .sound-button-container {
-	padding-right: 5px;
+	padding-right: 3px;
+	padding-left: 3px;
 }
 .sound-button {
 	width: 22px;
 	height: 13px;
 	border: 1px solid #555;
 	border-radius: 4px;
-	padding: 7px;
+	padding: 5px;
 }
 .sound-button:hover {
 	border: 1px solid white;
@@ -1427,22 +1463,27 @@ StTooltip StLabel {
 	icon-size: 1.4em;
 }
 .sound-track-infos {
-	padding-left: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 .sound-track-info {
-	padding-bottom: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 .sound-track-info StIcon {
 	icon-size: 1em;
+
 }
 .sound-track-info StLabel {
 	padding-left: 5px;
+	padding-right: 5px;
 }
-.sound-track-box {
-	padding-top: 20px;
-	padding-left: 30px;
-	padding-right: 30px;
-	padding-bottom: 10px;
+.sound-track-box {	
+	padding-left: 15px;
+	padding-right: 15px;	
+	max-width: 220px;
 }
 .sound-volume-menu-item {
 	padding: .4em 1.75em;
@@ -1450,10 +1491,13 @@ StTooltip StLabel {
 .sound-volume-menu-item StIcon {
 	icon-size: 1.14em;
 	padding-left: 8px;
+	padding-right: 8px;
 }
 .sound-playback-control {
 	padding-top: 5px;
 	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 /* ===================================================================
  * Workspace Switcher applet (workspaceSwitcher.js)
@@ -1552,12 +1596,10 @@ StTooltip StLabel {
  * ===================================================================*/
 .applet-box {
 	padding-left: 3px;
-    padding-right: 3px;	
+	padding-right: 3px;
 	color: #ccc;
 	text-shadow: black 0px 0px 2px;
 	transition-duration: 300;
-	min-width: 1em;
-	
 }
 .applet-box:hover {
 	color: #fff;
@@ -1573,9 +1615,122 @@ StTooltip StLabel {
 }
 .applet-icon {
 	color: #ccc;
+	icon-size: 22px;
 }
 .applet-icon:hover,
 .applet-box:hover > .applet-icon {
 	color: #fff;
 	icon-shadow: white 0px 0px 3px;
+}
+
+/* ===================================================================
+ * Workspace OSD
+ * ===================================================================*/
+
+.workspace-osd {
+	color: #ffffff;
+	text-shadow: black 5px 5px 5px;
+	font-weight: bold;
+	font-size: 48pt;	
+}
+
+.expo-workspaces-name-entry {
+	padding: 5px;
+	border-radius: 4px;
+	color: rgb(128, 128, 128);
+	border: 2px solid rgb(136,138,133);
+	background-gradient-start: rgb(200,200,200);
+	background-gradient-end: white;
+	background-gradient-direction: vertical;
+	selected-color: black;
+	caret-color: rgb(128, 128, 128);
+	caret-size: 1px;
+	width: 250px;
+	height: 15px;	
+	box-shadow: inset 0px 2px 4px rgba(0,0,0,0.6);
+	text-align: center;	
+}
+
+.expo-workspaces-name-entry#selected {
+	background-gradient-start: rgb(128,128,128);
+	background-gradient-end: black;
+	color: rgb(200, 200, 200);
+}
+
+.expo-workspaces-name-entry:focus {
+	color: rgb(64, 64, 64);
+	font-weight: bold;
+	transition-duration: 300;
+}
+
+/* ===================================================================
+ * Notification Applet
+ * ===================================================================*/
+
+.notification-applet-padding {
+	padding: .5em 1em;
+}
+
+.notification-applet-container {
+	max-height: 100px;
+}
+
+/* Check Boxes */
+.check-box CinnamonGenericContainer {
+    spacing: .2em;
+    min-height: 30px;
+    padding-top: 2px;
+}
+
+.check-box StBin {
+    width: 24px;
+    height: 18px;
+    background-image: url("checkbox-off.svg");
+}
+
+.check-box:focus StBin {
+    background-image: url("checkbox-off-focused.svg");
+}
+
+.check-box:checked StBin {
+    background-image: url("checkbox.svg");
+}
+
+.check-box:focus:checked StBin {
+    background-image: url("checkbox-focused.svg");
+}
+
+.check-box StLabel {
+   font-weight: normal;
+}
+
+.radiobutton CinnamonGenericContainer {
+    spacing: .2em;
+    height: 26px;
+    padding-top: 2px;
+}
+
+.radiobutton StBin {
+    width: 22px;
+    height: 22px;
+    background-image: url("radiobutton-off.svg");
+    border-radius: 15px;
+}
+
+.radiobutton:focus StBin {
+    background-image: url("radiobutton-off.svg");
+}
+
+.radiobutton:checked StBin {
+    background-image: url("radiobutton.svg");
+}
+
+.radiobutton:focus:checked StBin {
+    background-image: url("radiobutton.svg");
+}
+
+.radiobutton StLabel {
+   padding-top: 4px;
+   font-size: 0.9em;
+   box-shadow: none;
 }
